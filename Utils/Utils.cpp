@@ -5,6 +5,5 @@ int ErrorCheck(int expression, const char* message) {
         perror(message);
         exit(0);
     }
-
     return expression;
 }
