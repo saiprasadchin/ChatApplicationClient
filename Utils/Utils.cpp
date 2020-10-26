@@ -17,6 +17,22 @@ int PthreadErrorCheck(int expression, const char* message) {
 }
 
 void StringOverwriteStdout() {
-  printf("%s", "> ");
-  fflush(stdout);
+    printf("%s", "> ");
+    fflush(stdout);
+}
+
+void SendDataToServer(std::string message, SOCKET sockfd) {
+   send(sockfd, message.c_str(), message.size() + 1, 0);
+}
+
+std::string ReadResponseFromServer(SOCKET sockfd) {
+    char buffer[LENGTH] = {};
+
+    int receive = recv(sockfd, buffer, LENGTH, 0);
+    if (receive > 0) {
+        return (std::string)buffer;
+    } else {
+        print("ERROR : Recieve");
+    }
+    return "";
 }
