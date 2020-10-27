@@ -4,6 +4,25 @@ void View::DisplayWelcomeMessage() {
     cout << "Welcome To Client Application" << endl;
 }
 
+void View::DisplayHelpCommands(string help, SOCKET socket) {
+    vector<string> command_data;
+    command_data.push_back(help);
+    while(1) {
+        if(command_data.size() > 0) {
+            if( command_data[0] == "--help") {
+                system("clear");
+                std::cout<<"You can try the following commands:"<<endl;
+            } else {
+                std::cout << "\033[1;31m****INVALID COMMAND****\033[0m" << endl;
+            }
+        }
+        string command = "";
+        std::cout << "\n\x1B[36mENTER YOUR COMMAND\033[0m$ ";
+        getline(cin, command);
+        command_data = Split(command,' ');
+    }
+}
+
 void View::display() {
     system("clear");
     if (messageList.size() > MESSAGE_COUNT) {

@@ -62,23 +62,29 @@ void* GetOnLineClients(void* arg) {
 
 void* SendMessageHandler(void* arg) {
 	char message[LENGTH] = {};
-	while(1) {
-		StringOverwriteStdout();
-		fgets(message, LENGTH, stdin);
-		message[strlen(message) - 1] = '\0';
-		if (strcmp(message, "exit") == 0) {
+  	string buffer = ""; 
+  	while(1) {
+  		StringOverwriteStdout();
+    	fgets(message, LENGTH, stdin);
+    	message[strlen(message) - 1] = '\0';
+    	if (strcmp(message, "exit") == 0) {
 			break;
-		} else {
-			if(strlen(message) > 2){
-				send(sockfd, message, strlen(message), 0);
-				view.addMessage(message);
-		  		view.display();
-			}
-		}
-		bzero(message, LENGTH);
-	}
-	CatchCtrlCAndExit(2);
-	return NULL;
+    	}
+    	if(strcmp(message, "--help") == 0) {
+      		help_exit_flag = 0;
+      		send(sockfd, message, strlen(message), 0);
+      		view.DisplayHelpCommands(message, sockfd);
+      		help_exit_flag = 1;
+      		view.display();
+    	} else {
+      		send(sockfd, message, strlen(message), 0);
+		    view.addMessage(message);
+		  	view.display();
+    	}
+		bzero(message, LENGTH);;
+  	}
+  	CatchCtrlCAndExit(2);
+  	return NULL;
 }
 
 void* ReceiveMessageHandler(void* arg) {
