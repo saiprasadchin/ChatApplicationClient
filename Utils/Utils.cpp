@@ -21,10 +21,10 @@ void StringOverwriteStdout() {
     fflush(stdout);
 }
 
-vector<string> Split(const string &s, char delim) {
+vector<std::string> Split(const std::string &s, char delim) {
     stringstream ss(s);
-    string item;
-    vector<string> tokens;
+    std::string item;
+    vector<std::string> tokens;
     while (getline(ss, item, delim)) {
         tokens.push_back(item);
     }
