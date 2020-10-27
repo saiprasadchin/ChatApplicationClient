@@ -5,6 +5,7 @@
 using namespace std;
 
 #define REGISTRATION 1
+#define LOGIN 2
 #define VALID "0"
 #define INVALID "1"
 
@@ -14,4 +15,5 @@ public:
     void DisplayWelcomeMessage();
     bool RegistrationAndLogin(SOCKET);
     string registration(SOCKET);
+    string login(SOCKET);
 };
