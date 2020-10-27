@@ -21,8 +21,18 @@ void StringOverwriteStdout() {
     fflush(stdout);
 }
 
+vector<string> Split(const string &s, char delim) {
+    stringstream ss(s);
+    string item;
+    vector<string> tokens;
+    while (getline(ss, item, delim)) {
+        tokens.push_back(item);
+    }
+    return tokens;
+}
+
 void SendDataToServer(std::string message, SOCKET sockfd) {
-   send(sockfd, message.c_str(), message.size() + 1, 0);
+    send(sockfd, message.c_str(), message.size() + 1, 0);
 }
 
 std::string ReadResponseFromServer(SOCKET sockfd) {

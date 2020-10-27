@@ -21,4 +21,5 @@ public:
     string login(SOCKET);
     void display();
     void addMessage(string);
+    void View::UpdateOnLineClinetsList(string);
 };

@@ -25,6 +25,11 @@ void View::addMessage(string buffer) {
 	messageList.push_back(buffer);
 }
 
+void View::UpdateOnLineClinetsList(string online_clients) {
+      online_clients_list = Split(online_clients,' ');
+      display();
+}
+
 string View::registration(SOCKET sockfd) {
 
     string user_name, pass_word, auth;

@@ -15,5 +15,6 @@
 int ErrorCheck(int, const char*);
 int PthreadErrorCheck(int, const char*);
 void StringOverwriteStdout();
+vector<string> Split(const string &s, char delim);
 void SendDataToServer(std::string, SOCKET);
 std::string ReadResponseFromServer(SOCKET);

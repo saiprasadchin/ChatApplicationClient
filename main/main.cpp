@@ -2,12 +2,13 @@
 #include "../View/View.h"
 
 SOCKET sockfd = 0;
+int help_exit_flag = 1;
 volatile sig_atomic_t flag;
 
 void CatchCtrlCAndExit(int sig);
 void* SendMessageHandler(void* arg);
 void* ReceiveMessageHandler(void* arg);
-
+void* GetOnLineClients(void* arg);
 View view;
 
 int main() {
@@ -47,6 +48,18 @@ void CatchCtrlCAndExit(int sig) {
 	flag = 1;
 }
 
+void* GetOnLineClients(void* arg) {
+	char online[] = {"ONLINE"};
+	while(1) {
+    	if(help_exit_flag) {
+      		send(sockfd, online, strlen(online), 0);
+      		sleep(100);
+    	}
+  	}
+	bzero(online, strlen(online));
+	return NULL;
+}
+
 void* SendMessageHandler(void* arg) {
 	char message[LENGTH] = {};
 	while(1) {
@@ -71,16 +84,25 @@ void* SendMessageHandler(void* arg) {
 void* ReceiveMessageHandler(void* arg) {
 	char message[LENGTH] = {};
 	while (1) {
-		int receive = recv(sockfd, message, LENGTH, 0);
-		if (receive > 0) {
-			view.addMessage(message);
-			view.display();
-		} else if (receive == 0) {
-			break;
-		} else {
-			cout << "ERROR " << endl;
-		}
+    	if(help_exit_flag) {
+      		int receive = recv(sockfd, message, LENGTH, 0);
+      		if (receive > 0) {
+        		if(strcmp(message, "$") == 0) {
+          			cout << message << endl;
+        		} else if(strstr(message, "ONLINE") == 0) {
+          			view.addMessage(message);
+          			view.display();
+          			StringOverwriteStdout();
+        		} else {
+          			view.UpdateOnLineClinetsList(message);
+        		}
+      		} else if (receive == 0) {
+        	break;
+     		} else {
+				cout << "ERROR " << endl;
+      		}
+    	}  
 		memset(message, 0, sizeof(message));
-	}
-	return NULL;
+  	}
+  return NULL;
 }
