@@ -4,6 +4,27 @@ void View::DisplayWelcomeMessage() {
     cout << "Welcome To Client Application" << endl;
 }
 
+void View::display() {
+    system("clear");
+    if (messageList.size() > MESSAGE_COUNT) {
+        int j = 0;
+        printf("\033[1;35m=== WELCOME TO THE CHATROOM ===\033[0m\n");
+        int count = messageList.size() - MESSAGE_COUNT;
+        for (int i = count; i < messageList.size(); i++) {
+            printf("%-60s", messageList[i].c_str());
+            if (j < online_clients_list.size())
+                cout <<"\033[1;32m"<< online_clients_list[j++] <<"\033[0m\n";
+            else
+                cout << endl;
+        }
+        printf("%+80s", "\033[1;35mUSE : --help command\033[0m\n");
+    }
+}
+
+void View::addMessage(string buffer) {
+	messageList.push_back(buffer);
+}
+
 string View::registration(SOCKET sockfd) {
 
     string user_name, pass_word, auth;

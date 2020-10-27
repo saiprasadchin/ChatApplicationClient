@@ -8,6 +8,8 @@ void CatchCtrlCAndExit(int sig);
 void* SendMessageHandler(void* arg);
 void* ReceiveMessageHandler(void* arg);
 
+View view;
+
 int main() {
 
 	const char *ip = "127.0.0.1";
@@ -15,7 +17,6 @@ int main() {
 
 	signal(SIGINT, CatchCtrlCAndExit);
 
-	View view;
 	view.DisplayWelcomeMessage();
 
 	ClientSocket client_socket;
@@ -23,7 +24,7 @@ int main() {
 
 	if(!view.RegistrationAndLogin( sockfd ))
 		exit(0);
-		
+
 	pthread_t send_msg_thread;
 	PthreadErrorCheck(pthread_create(&send_msg_thread, NULL, &SendMessageHandler, NULL),
 		"ERROR: pthread\n");
@@ -55,8 +56,11 @@ void* SendMessageHandler(void* arg) {
 		if (strcmp(message, "exit") == 0) {
 			break;
 		} else {
-			if(strlen(message) > 2)
+			if(strlen(message) > 2){
 				send(sockfd, message, strlen(message), 0);
+				view.addMessage(message);
+		  		view.display();
+			}
 		}
 		bzero(message, LENGTH);
 	}
@@ -69,12 +73,13 @@ void* ReceiveMessageHandler(void* arg) {
 	while (1) {
 		int receive = recv(sockfd, message, LENGTH, 0);
 		if (receive > 0) {
-				cout << message << endl;
+			view.addMessage(message);
+			view.display();
 		} else if (receive == 0) {
 			break;
 		} else {
 			cout << "ERROR " << endl;
-		}  
+		}
 		memset(message, 0, sizeof(message));
 	}
 	return NULL;

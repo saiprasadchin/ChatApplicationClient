@@ -11,9 +11,14 @@ using namespace std;
 
 class View
 {
+    int MESSAGE_COUNT = 10;
+    vector<string> messageList = { "","","","","","","","","",""};
+    vector<string> online_clients_list;
 public:
     void DisplayWelcomeMessage();
     bool RegistrationAndLogin(SOCKET);
     string registration(SOCKET);
     string login(SOCKET);
+    void display();
+    void addMessage(string);
 };
