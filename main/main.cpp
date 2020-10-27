@@ -33,6 +33,10 @@ int main() {
 	pthread_t recv_msg_thread;
 	PthreadErrorCheck(pthread_create(&recv_msg_thread, NULL, &ReceiveMessageHandler, NULL),
 		"ERROR: pthread\n");
+
+	pthread_t get_online_clients_list;
+  	PthreadErrorCheck(pthread_create(&get_online_clients_list, NULL, &GetOnLineClients, NULL),
+        "ERROR: pthread\n");
 		
 	while (1){
 		if(flag){

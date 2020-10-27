@@ -1,5 +1,6 @@
 #include "View.h"
 
+string user_id;
 void View::DisplayWelcomeMessage() {
     cout << "Welcome To Client Application" << endl;
 }
