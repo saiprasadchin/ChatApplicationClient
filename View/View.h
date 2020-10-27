@@ -4,6 +4,8 @@
 
 using namespace std;
 
+#define UNSEEN_MESSAGES_FROM "UNSEEN_MESSAGES_FROM "
+#define MESSAGES "MESSAGES "
 #define REGISTRATION 1
 #define LOGIN 2
 #define VALID "0"

@@ -12,6 +12,31 @@ void View::DisplayHelpCommands(string help, SOCKET socket) {
             if( command_data[0] == "--help") {
                 system("clear");
                 std::cout<<"You can try the following commands:"<<endl;
+                std::cout<<"\033[1;32mchat : \033[1;35mGOTO CHAT WINDOW :\033[0m Start chat with your friend\033[0m"<<endl;
+                std::cout<<"\033[1;32munseen :\033[0m See friends with pending messages\033[1;"<<endl;
+                std::cout<<"\033[1;32munseen \033[3m[\033[1;35musername\033[1;32m] :\033[0m get pending from message friend\033[1;"<<endl;
+            } else if( command_data[0] == "chat" ) {
+                SendDataToServer("chat ",socket);
+                break;
+            } else if( command_data[0] == "unseen" ) {
+                if(command_data.size() == 1) {
+                    SendDataToServer(UNSEEN_MESSAGES_FROM, socket);
+                    string unseen_friends = ReadResponseFromServer(socket);
+                    vector<string> list = Split(unseen_friends, ' ');
+                    for (int i = 0; i < list.size(); i++) {
+                        std::cout <<"\033[1;32m"<< list[i] <<"\033[0m\n";
+                    }
+                } else if(command_data.size() == 2) {
+                    SendDataToServer(MESSAGES + command_data[1], socket);
+                    string unseen_messages = ReadResponseFromServer(socket);
+                    vector<string> list = Split(unseen_messages, ' ');
+                    std::cout <<"\033[1;32m"<< list[0] <<"\033[0m\n";
+                    for (int i = 1; i < list.size(); i++) {
+                        std::cout << list[i] << endl;
+                    }
+                } else {
+                     std::cout<<"Use the command properly!"<<endl<<endl;
+                }
             } else {
                 std::cout << "\033[1;31m****INVALID COMMAND****\033[0m" << endl;
             }
