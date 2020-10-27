@@ -12,6 +12,8 @@ using namespace std;
 #define VALID "0"
 #define INVALID "1"
 
+string user_id;
+
 class View
 {
     int MESSAGE_COUNT = 10;

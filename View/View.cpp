@@ -65,7 +65,8 @@ void View::display() {
     system("clear");
     if (messageList.size() > MESSAGE_COUNT) {
         int j = 0;
-        printf("\033[1;35m=== WELCOME TO THE CHATROOM ===\033[0m\n");
+        cout << "\033[1;35m=== WELCOME TO THE CHATROOM ===\033[0m\n" << "\x1b[1m\x1B[93m"
+              << "USER : " << user_id << "\033[0m\x1b[0m\n";
         int count = messageList.size() - MESSAGE_COUNT;
         for (int i = count; i < messageList.size(); i++) {
             printf("%-60s", messageList[i].c_str());
@@ -110,7 +111,7 @@ string View::login(SOCKET sockfd) {
     cin >> pass_word;
 
     auth = "AUTHENTICATE " + user_name + " " + pass_word;
-
+    user_id = user_name;
     SendDataToServer(auth, sockfd);
 
     return ReadResponseFromServer(sockfd);
