@@ -1,6 +1,7 @@
 #include "View.h"
 
 string user_id;
+std::mutex mtx;
 void View::DisplayWelcomeMessage() {
     cout << "Welcome To Client Application" << endl;
 }
@@ -63,6 +64,7 @@ void View::DisplayHelpCommands(string help, SOCKET socket) {
 }
 
 void View::display() {
+    std::lock_guard<std::mutex> lck (mtx);
     system("clear");
     if (messageList.size() > MESSAGE_COUNT) {
         int j = 0;
